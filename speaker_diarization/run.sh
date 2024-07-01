@@ -9,7 +9,7 @@ PYTHON=python  # Python to use; defaults to system Python.
 ################################################################################
 nj=4
 decode_nj=4 #eval
-stage=4
+stage=0
 sad_train_stage=0
 sad_decode_stage=0
 diarization_stage=0
