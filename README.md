@@ -4,6 +4,7 @@
 Inspired by the broad participation in the DISPLACE 2023 challenge and the need for continued research to advance speech technology within natural multilingual conversations, we announced the second season of the DISPLACE challenge. The current challenge includes an additional track on automatic speech recognition (ASR) in code-switched multi-accent conversational scenarios along with speaker diarization (SD) in multilingual settings and language diarization (LD) in multi-speaker settings, using the same underlying dataset.  Further details about the challenge can be found at [DISPLACE 2024](https://displace2024.github.io/). 
 
 # Updates
+[01/07/2024] : The Second DISPLACE challenge paper is available here(http://www.arxiv.org/pdf/2406.09494). 
 [20/02/2024]: Missing files in Speaker Diarization baseline have been updated. 
 
 [8/02/2024]: Track 3 (ASR) baseline details and results on DEV data updated. 
