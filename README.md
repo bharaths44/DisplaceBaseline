@@ -16,7 +16,7 @@ Inspired by the broad participation in the DISPLACE 2023 challenge and the need 
 # Challenge Baseline Paper
 
 - Kalluri, Shareef Babu, et al. "The Second DISPLACE Challenge: DIarization of SPeaker and LAnguage in Conversational Environments." arXiv preprint arXiv:2406.09494 (2024) ([paper](http://www.arxiv.org/pdf/2406.09494)).
-- 
+  
 # Baseline for speaker diarization (Track 1)
 
 The implementation of the speaker diarization baseline is largely similar to the  [DISPLACE 2023](https://github.com/displace2023/DISPLACE_Baselines). 
