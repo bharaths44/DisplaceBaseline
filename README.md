@@ -3,16 +3,22 @@
 # About the Challenge
 Inspired by the broad participation in the DISPLACE 2023 challenge and the need for continued research to advance speech technology within natural multilingual conversations, we announced the second season of the DISPLACE challenge. The current challenge includes an additional track on automatic speech recognition (ASR) in code-switched multi-accent conversational scenarios along with speaker diarization (SD) in multilingual settings and language diarization (LD) in multi-speaker settings, using the same underlying dataset.  Further details about the challenge can be found at [DISPLACE 2024](https://displace2024.github.io/). 
 
+
+
 # Updates
-[01/07/2024] : The Second DISPLACE challenge paper is available here(http://www.arxiv.org/pdf/2406.09494). 
+[01/07/2024] : The Second DISPLACE challenge ([paper](http://www.arxiv.org/pdf/2406.09494))
 [20/02/2024]: Missing files in Speaker Diarization baseline have been updated. 
 
 [8/02/2024]: Track 3 (ASR) baseline details and results on DEV data updated. 
 
 [20/01/2024]: We have released the Baseline codes for speaker diarization and language diarization.
 
+# Challenge Baseline Paper
 
+- Kalluri, Shareef Babu, et al. "The Second DISPLACE Challenge: DIarization of SPeaker and LAnguage in Conversational Environments." arXiv preprint arXiv:2406.09494 (2024) ([paper](http://www.arxiv.org/pdf/2406.09494)).
+- 
 # Baseline for speaker diarization (Track 1)
+
 The implementation of the speaker diarization baseline is largely similar to the  [DISPLACE 2023](https://github.com/displace2023/DISPLACE_Baselines). 
 This baseline has been described in the DISPLACE 2023 challenge paper :
 - Baghel, Shikha et al., “The DISPLACE Challenge 2023 - DIarization of SPeaker and LAnguage in
@@ -23,6 +29,9 @@ The steps involve speech activity detection, front-end feature extraction, x-vec
 The major changes in the DISPLACE 2024 baseline are:
 1. Speech activity detection using [Pyannote SAD model](https://github.com/pyannote/pyannote-audio)
 2. Overlap handling using [Pyannote overlap detector](https://github.com/pyannote/pyannote-audio) and VB-HMM together in the final stage.
+
+
+
 
 
 # Baseline for Language Dizarization (Track 2)
