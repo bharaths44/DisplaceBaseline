@@ -6,7 +6,8 @@ Inspired by the broad participation in the DISPLACE 2023 challenge and the need 
 
 
 # Updates
-[01/07/2024] : The Second DISPLACE challenge ([paper](http://www.arxiv.org/pdf/2406.09494))
+[01/07/2024] : The Second DISPLACE challenge ([paper](http://www.arxiv.org/pdf/2406.09494)).
+
 [20/02/2024]: Missing files in Speaker Diarization baseline have been updated. 
 
 [8/02/2024]: Track 3 (ASR) baseline details and results on DEV data updated. 
