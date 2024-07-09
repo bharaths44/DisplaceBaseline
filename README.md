@@ -134,7 +134,15 @@ Please check the output of these scripts to ensure that installation has succeed
 ## Step 4: Running the baselines
 
 Navigate to the ```speaker_diarization``` or ```language_diarization``` directories and follow the instructions in ```README.md``` to run the respective baseline systems.
+
+
+
   
 <!-- ## Pretrained SAD model
 
 We have placed a copy of the TDNN+stats SAD model used to produce these results on [Zenodo](https://zenodo.org/). To use this model, download and unarchive the [tarball](https://zenodo.org/record/4299009), then move it to ``speaker_diarization/exp``. -->
+
+
+
+## License
+<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons Licence" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
