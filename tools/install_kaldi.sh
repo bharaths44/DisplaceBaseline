@@ -35,7 +35,7 @@ if [ ! -f install.succeeded ]; then
     touch "python/.use_default_python"
 
     # Compile.
-    make -j $NJOBS
+    make -j $NJOBS  WGET="wget --no-check-certificate"
 
     # Compile OpenBLAS. For some reason the default install script doesn't put
     # components in the places expected by src/configure, so move some things
