@@ -164,7 +164,7 @@ def load_script_file(fn):
 
 
 def print_table(file_scores, global_scores, n_digits=2, table_format="simple"):
-    """Pretty print scores as table.
+    """Pretty print scores as table and save to CSV.
 
     Parameters
     ----------
@@ -201,6 +201,36 @@ def print_table(file_scores, global_scores, n_digits=2, table_format="simple"):
     floatfmt = ".%df" % n_digits
     tbl = tabulate(rows, headers=col_names, floatfmt=floatfmt, tablefmt=table_format)
     print(tbl)
+
+    # Automatically save results to CSV
+    csv_output = "diarization_scores.csv"
+    try:
+        import csv
+
+        with open(csv_output, "w", newline="") as f:
+            writer = csv.writer(f)
+            writer.writerow(col_names)
+            for row in rows:
+                # Convert namedtuple to list
+                writer.writerow(
+                    [
+                        row.file_id,
+                        row.der,
+                        row.jer,
+                        row.bcubed_precision,
+                        row.bcubed_recall,
+                        row.bcubed_f1,
+                        row.tau_ref_sys,
+                        row.tau_sys_ref,
+                        row.ce_ref_sys,
+                        row.ce_sys_ref,
+                        row.mi,
+                        row.nmi,
+                    ]
+                )
+        print(f"\nResults saved to CSV file: {csv_output}")
+    except Exception as e:
+        print(f"\nError saving CSV file: {e}", file=sys.stderr)
 
 
 def main():
