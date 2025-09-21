@@ -144,16 +144,21 @@ echo ""
 
 echo "=== Stage 5: Scoring ==="
 
-ref_RTTM=$OUTPUT_DIR/dscore/dev_original.rttm
+# Create a combined reference RTTM file from individual RTTM files in ground_truth
+ref_RTTM=$OUTPUT_DIR/dscore/ref_dev_combined.rttm
 sys_RTTM=$OUTPUT_DIR/dscore/sys_dev_whisper.rttm
 
-echo "Combining RTTM files..."
+echo "Combining reference RTTM files..."
+echo "Command: cat $OUTPUT_DIR/ground_truth/*.rttm > $ref_RTTM"
+cat $OUTPUT_DIR/ground_truth/*.rttm > $ref_RTTM
+
+echo "Combining system RTTM files..."
 echo "Command: cat $OUTPUT_DIR/$RTTM_OUT_DIR/*.rttm > $sys_RTTM"
-cat $OUTPUT_DIR/$RTTM_OUT_DIR/*.rttm  > $sys_RTTM
+cat $OUTPUT_DIR/$RTTM_OUT_DIR/*.rttm > $sys_RTTM
 
 echo "Running scoring..."
 echo "Command: $PYTHON score.py -r $ref_RTTM -s $sys_RTTM"
-PYTHONPATH=/Users/bharaths/Downloads/Displace2024_baseline_updated-main/tools/dscore $PYTHON score.py -r $ref_RTTM -s $sys_RTTM
+$PYTHON score.py -r $ref_RTTM -s $sys_RTTM
 
 echo ""
 echo "=== Script execution completed ===" 
