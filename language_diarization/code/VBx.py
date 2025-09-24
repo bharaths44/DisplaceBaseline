@@ -24,9 +24,24 @@ import numpy as np
 from scipy.special import logsumexp
 
 
-def VBx(X, Phi, loopProb=0.9, Fa=1.0, Fb=1.0, pi=10, gamma=None, maxIters=10,
-        epsilon=1e-4, alphaQInit=1.0, ref=None, plot=False,
-        return_model=False, alpha=None, invL=None,N='trial'):
+def VBx(
+    X,
+    Phi,
+    loopProb=0.9,
+    Fa=1.0,
+    Fb=1.0,
+    pi=10,
+    gamma=None,
+    maxIters=10,
+    epsilon=1e-4,
+    alphaQInit=1.0,
+    ref=None,
+    plot=False,
+    return_model=False,
+    alpha=None,
+    invL=None,
+    N="trial",
+):
     """
     Inputs:
     X           - T x D array, where columns are D dimensional feature vectors
@@ -74,7 +89,7 @@ def VBx(X, Phi, loopProb=0.9, Fa=1.0, Fb=1.0, pi=10, gamma=None, maxIters=10,
     D = X.shape[1]  # feature (e.g. x-vector) dimensionality
 
     if type(pi) is int:
-        pi = np.ones(pi)/pi
+        pi = np.ones(pi) / pi
 
     if gamma is None:
         # initialize gamma from flat Dirichlet prior with
@@ -82,9 +97,11 @@ def VBx(X, Phi, loopProb=0.9, Fa=1.0, Fb=1.0, pi=10, gamma=None, maxIters=10,
         gamma = np.random.gamma(alphaQInit, size=(X.shape[0], len(pi)))
         gamma = gamma / gamma.sum(1, keepdims=True)
 
-    assert(gamma.shape[1] == len(pi) and gamma.shape[0] == X.shape[0])
-    np.save(N+'_gamma_init.npy',gamma)
-    G = -0.5*(np.sum(X**2, axis=1, keepdims=True) + D*np.log(2*np.pi))  # per-frame constant term in (23)
+    assert gamma.shape[1] == len(pi) and gamma.shape[0] == X.shape[0]
+    np.save(N + "_gamma_init.npy", gamma)
+    G = -0.5 * (
+        np.sum(X**2, axis=1, keepdims=True) + D * np.log(2 * np.pi)
+    )  # per-frame constant term in (23)
     V = np.sqrt(Phi)  # between (5) and (6)
     rho = X * V  # (18)
     Li = []
@@ -92,36 +109,54 @@ def VBx(X, Phi, loopProb=0.9, Fa=1.0, Fb=1.0, pi=10, gamma=None, maxIters=10,
         # Do not start with estimating speaker models if those are provided
         # in the argument
         if ii > 0 or alpha is None or invL is None:
-            invL = 1.0 / (1 + Fa/Fb * gamma.sum(axis=0, keepdims=True).T*Phi)  # (17) for all speakers
-            alpha = Fa/Fb * invL * gamma.T.dot(rho)  # (16) for all speakers
-        log_p_ = Fa * (rho.dot(alpha.T) - 0.5 * (invL+alpha**2).dot(Phi) + G)  # (23) for all speakers
-        tr = np.eye(len(pi)) * loopProb + (1-loopProb) * pi  # (1) transition probability matrix
-        gamma, log_pX_, logA, logB = forward_backward(log_p_, tr, pi)  # (19) gamma, (20) logA, (21) logB, (22) log_pX_
+            invL = 1.0 / (
+                1 + Fa / Fb * gamma.sum(axis=0, keepdims=True).T * Phi
+            )  # (17) for all speakers
+            alpha = Fa / Fb * invL * gamma.T.dot(rho)  # (16) for all speakers
+        log_p_ = Fa * (
+            rho.dot(alpha.T) - 0.5 * (invL + alpha**2).dot(Phi) + G
+        )  # (23) for all speakers
+        tr = (
+            np.eye(len(pi)) * loopProb + (1 - loopProb) * pi
+        )  # (1) transition probability matrix
+        gamma, log_pX_, logA, logB = forward_backward(
+            log_p_, tr, pi
+        )  # (19) gamma, (20) logA, (21) logB, (22) log_pX_
         ELBO = log_pX_ + Fb * 0.5 * np.sum(np.log(invL) - invL - alpha**2 + 1)  # (25)
-        pi = gamma[0] + (1-loopProb)*pi * np.sum(np.exp(logsumexp(
-            logA[:-1], axis=1, keepdims=True) + log_p_[1:] + logB[1:] - log_pX_
-        ), axis=0)  # (24)
+        pi = gamma[0] + (1 - loopProb) * pi * np.sum(
+            np.exp(
+                logsumexp(logA[:-1], axis=1, keepdims=True)
+                + log_p_[1:]
+                + logB[1:]
+                - log_pX_
+            ),
+            axis=0,
+        )  # (24)
         pi = pi / pi.sum()
         Li.append([ELBO])
-        np.save(N+'_gamma_final.npy',gamma)
+        np.save(N + "_gamma_final.npy", gamma)
         # if reference is provided, report DER, cross-entropy and plot figures
         if ref is not None:
             Li[-1] += [DER(gamma, ref), DER(gamma, ref, xentropy=True)]
 
             if plot:
                 import matplotlib.pyplot
+
                 if ii == 0:
                     matplotlib.pyplot.clf()
-                matplotlib.pyplot.subplot(maxIters, 1, ii+1)
+                matplotlib.pyplot.subplot(maxIters, 1, ii + 1)
                 matplotlib.pyplot.plot(gamma, lw=2)
-                matplotlib.pyplot.imshow(np.atleast_2d(ref),
-                                         interpolation='none', aspect='auto',
-                                         cmap=matplotlib.pyplot.cm.Pastel1,
-                                         extent=(0, len(ref), -0.05, 1.05))
+                matplotlib.pyplot.imshow(
+                    np.atleast_2d(ref),
+                    interpolation="none",
+                    aspect="auto",
+                    cmap=matplotlib.pyplot.cm.Pastel1,
+                    extent=(0, len(ref), -0.05, 1.05),
+                )
 
         if ii > 0 and ELBO - Li[-2][0] < epsilon:
             if ELBO - Li[-2][0] < 0:
-                print('WARNING: Value of auxiliary function has decreased!')
+                print("WARNING: Value of auxiliary function has decreased!")
             break
     return (gamma, pi, Li) + ((alpha, invL) if return_model else ())
 
@@ -134,13 +169,18 @@ def VBx(X, Phi, loopProb=0.9, Fa=1.0, Fb=1.0, pi=10, gamma=None, maxIters=10,
 def DER(q, ref, expected=True, xentropy=False):
     from scipy.sparse import coo_matrix
     from scipy.optimize import linear_sum_assignment
+
     if not expected:  # replce probabilities in q by zeros and ones
         q = coo_matrix((np.ones(len(q)), (range(len(q)), q.argmax(1)))).toarray()
 
     ref_mx = coo_matrix((np.ones(len(ref)), (range(len(ref)), ref)))
-    err_mx = ref_mx.T.dot(-np.log(q+np.nextafter(0, 1)) if xentropy else -q)
+    err_mx = ref_mx.T.dot(-np.log(q + np.nextafter(0, 1)) if xentropy else -q)
     min_cost = err_mx[linear_sum_assignment(err_mx)].sum()
-    return min_cost/float(len(ref)) if xentropy else (len(ref) + min_cost)/float(len(ref))
+    return (
+        min_cost / float(len(ref))
+        if xentropy
+        else (len(ref) + min_cost) / float(len(ref))
+    )
 
 
 def forward_backward(lls, tr, ip):
@@ -165,10 +205,10 @@ def forward_backward(lls, tr, ip):
     lbw[-1] = 0.0
 
     for ii in range(1, len(lls)):
-        lfw[ii] = lls[ii] + logsumexp(lfw[ii-1] + ltr.T, axis=1)
+        lfw[ii] = lls[ii] + logsumexp(lfw[ii - 1] + ltr.T, axis=1)
 
-    for ii in reversed(range(len(lls)-1)):
-        lbw[ii] = logsumexp(ltr + lls[ii+1] + lbw[ii+1], axis=1)
+    for ii in reversed(range(len(lls) - 1)):
+        lbw[ii] = logsumexp(ltr + lls[ii + 1] + lbw[ii + 1], axis=1)
 
     tll = logsumexp(lfw[-1], axis=0)
     pi = np.exp(lfw + lbw - tll)

@@ -1,11 +1,14 @@
-import argparse
 import os
 import pickle
 from pyannote.audio.pipelines import VoiceActivityDetection
 from pyannote.audio import Model
-import matplotlib.pyplot as plt
 import numpy as np
 import sys
+
+# Load environment variables from .env if present
+from dotenv import load_dotenv
+
+load_dotenv()
 
 VAD_SUBDIR = "dev/"
 SEG_SUBDIR = "seg/"
