@@ -9,9 +9,7 @@
 from __future__ import print_function
 import argparse
 import logging
-import sys
 import textwrap
-from pdb import set_trace as bp
 import os
 
 

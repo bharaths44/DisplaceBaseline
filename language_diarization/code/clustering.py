@@ -1,27 +1,12 @@
 import os
-import matplotlib.pyplot as plt
 import fastcluster
-import scipy.cluster.hierarchy as sch
 import argparse
-from sklearn.cluster import KMeans
-from sklearn.model_selection import GridSearchCV
 import numpy as np
-import scipy as sp
-from sklearn.cluster import SpectralClustering
-from sklearn.model_selection import RandomizedSearchCV
-from pathlib import Path
-from pdb import set_trace as bp
 from scipy.cluster.hierarchy import fcluster
 from scipy.spatial.distance import squareform
 from scipy.special import softmax
-from scipy.linalg import eigh
-from sklearn.decomposition import PCA
-import joblib
-from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
-from kaldi_io import read_vec_flt_ark, write_vec_flt
-import os
-import joblib
-import pickle
+from kaldi_io import read_vec_flt_ark
+
 
 import struct
 from VBx import VBx

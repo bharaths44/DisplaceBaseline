@@ -3,7 +3,6 @@
 import textwrap
 import argparse
 import logging
-import sys
 
 import os
 import pandas as pd
